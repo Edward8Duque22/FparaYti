@@ -1,0 +1,176 @@
+<style>
+    .notebook {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      background: #fdf8f0;
+      border-radius: 2px 8px 8px 2px;
+      box-shadow: -4px 0 0 #c8bfb0, -6px 0 0 #b8b0a0, 2px 2px 12px rgba(0,0,0,0.18);
+      overflow: visible;
+    }
+ 
+    .spiral-strip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 38px;
+      background: #d4cfc6;
+      border-right: 1px solid #b8b3aa;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding: 18px 0;
+    }
+ 
+    .ring {
+      width: 22px;
+      height: 14px;
+      border: 2.5px solid #8a8278;
+      border-radius: 50%;
+      background: transparent;
+      flex-shrink: 0;
+    }
+ 
+    .page-content {
+      margin-left: 38px;
+      padding: 28px 32px 40px 28px;
+      position: relative;
+    }
+ 
+    .header-line {
+      border-bottom: 1.5px solid #e8b4b8;
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+    }
+ 
+    .fecha {
+      font-size: 15px;
+      color: #b08080;
+      text-align: right;
+      margin-bottom: 4px;
+    }
+ 
+    .lines-wrapper {
+      position: relative;
+      padding-bottom: 38px;
+    }
+ 
+    .lines-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -28px; right: 0; bottom: 0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 37px,
+        #c8ddf0 37px,
+        #c8ddf0 38px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+ 
+    .margin-line {
+      position: absolute;
+      left: -28px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: #e8a0a8;
+      z-index: 1;
+    }
+ 
+    .notebook-text {
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      color: #2c3060;
+      line-height: 38px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    .corner-fold {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 0 22px 22px;
+      border-color: transparent transparent #e8ddd0 transparent;
+    }
+ 
+    .page-number {
+      position: absolute;
+      bottom: 12px;
+      right: 18px;
+      font-size: 13px;
+      color: #b0a898;
+    }
+ 
+    .stain {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.07;
+      background: #8b7355;
+      pointer-events: none;
+    }
+</style>
+<div class="notebook">
+    <div class="spiral-strip" id="rings"></div>
+ 
+    <div class="page-content">
+      <div class="fecha">02/04/2026</div>
+      <div class="header-line"></div>
+ 
+      <div class="lines-wrapper" id="linesWrapper">
+        <div class="margin-line"></div>
+        <p class="notebook-text" id="noteText"></p>
+      </div>
+ 
+      <div class="corner-fold"></div>
+      <div class="page-number">— 1 —</div>
+    </div>
+ 
+    <div class="stain" style="width:60px;height:40px;top:80px;right:40px;transform:rotate(20deg);"></div>
+    <div class="stain" style="width:30px;height:20px;bottom:120px;right:80px;transform:rotate(-10deg);"></div>
+  </div>
+<script>
+    const texto =`"Así podré seguirte amando, sin que nadie lo sepa, oculto en esa misteriosa soledad de tus noches, en el oscuro silencio de cualquier desvelo. En la callada sorpresa de un despertar, por la invisible caricia inoportuna, que sin prisa; la imaginas y la guardas, allá donde se esconden los recuerdos más sublimes de tu vida. Inevitablemente, así, te seguiré amando... Solo así..." 
+    A veces pienso que si pudieras estar en mi lugar, aunque sea un momento, entenderías todo lo que no sé cómo decirte. Lo que siento cuando estás cerca, lo que siento cuando no estás; las palabras siempre se me quedan cortas, y las acciones tampoco me alcanzan para mostrar lo que realmente hay aquí adentro... Me pierdo en tu mirada con una facilidad que ya me parece ridícula! Me enamoro de ti cada día como si fuera la primera vez. Es que, yo creo que hay algo en tus caricias, en tu voz, en tu sonrisa... 
+    Ese algo que me hace querer hacer lo que sea por mantenerte... No sé si llamarle obsesión, pero es lo más honesto que tengo. El tiempo sin ti pesa de una forma que no sé explicar bien. Y entiendo que quizás desde afuera no se vea, que quizás no he sabido hacértelo saber/sentir como debería, pero si pudieras, aunque fuera por unas horas, estar dentro de esto que yo cargo... Creo que ya no necesitarías que te dijera nada más.`;
+  function buildRings() {
+      const strip = document.getElementById('rings');
+      const h = strip.offsetHeight || 600;
+      const count = Math.floor(h / 28);
+      strip.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const r = document.createElement('div');
+        r.className = 'ring';
+        strip.appendChild(r);
+      }
+    }
+ 
+    function typeText() {
+      const el = document.getElementById('noteText');
+      let i = 0;
+      function tick() {
+        if (i <= texto.length) {
+          el.textContent = texto.slice(0, i);
+          i++;
+          setTimeout(tick, 18);
+        }
+      }
+      tick();
+    }
+ 
+    window.addEventListener('load', () => {
+      buildRings();
+      setTimeout(typeText, 100);
+    });
+</script>
