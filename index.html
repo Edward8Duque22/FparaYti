@@ -136,6 +136,42 @@
       background: #8b7355;
       pointer-events: none;
     }
+  
+    .firma-wrap {
+      display: flex;
+      justify-content: flex-end;
+      padding: 18px 32px 32px 0;
+      margin-left: 38px;
+    }
+ 
+    .sello {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 110px;
+      height: 110px;
+      transform: rotate(-8deg);
+    }
+ 
+    .sello svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+    }
+ 
+    .sello-texto {
+      position: relative;
+      z-index: 2;
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: 22px;
+      color: #7a2020;
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: 1px;
+      opacity: 0.82;
+    }
 </style>
 </head>
 <body>
@@ -150,7 +186,25 @@
         <div class="margin-line"></div>
         <p class="notebook-text" id="noteText"></p>
       </div>
- 
+
+
+      <div class="firma-wrap">
+        <div class="sello">
+          <!-- Círculo exterior -->
+          <svg viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="55" cy="55" r="50" fill="none" stroke="#7a2020" stroke-width="2.5" opacity="0.75"/>
+            <circle cx="55" cy="55" r="44" fill="none" stroke="#7a2020" stroke-width="1" opacity="0.5"/>
+            <!-- Líneas decorativas arriba y abajo -->
+            <line x1="20" y1="55" x2="35" y2="55" stroke="#7a2020" stroke-width="1" opacity="0.6"/>
+            <line x1="75" y1="55" x2="90" y2="55" stroke="#7a2020" stroke-width="1" opacity="0.6"/>
+            <!-- Pequeñas estrellas/cruces decorativas -->
+            <text x="55" y="26" text-anchor="middle" font-size="7" fill="#7a2020" opacity="0.7" font-family="serif">✦ ✦ ✦</text>
+            <text x="55" y="92" text-anchor="middle" font-size="7" fill="#7a2020" opacity="0.7" font-family="serif">✦ ✦ ✦</text>
+          </svg>
+          <div class="sello-texto">Edward<br>D.</div>
+        </div>
+      </div>
+      
       <div class="corner-fold"></div>
       <div class="page-number">— 1 —</div>
     </div>
